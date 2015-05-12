@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506142004) do
+ActiveRecord::Schema.define(version: 20150512183908) do
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "identity"
+    t.text     "cipher"
+    t.integer  "iv"
+    t.string   "key_recipient_enc"
+    t.string   "sig_recipient"
+    t.string   "recipient"
+    t.string   "sig_service"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "identity"
+    t.string   "password"
     t.integer  "salt_masterkey"
     t.string   "pubkey_user"
     t.string   "privkey_user_enc"
