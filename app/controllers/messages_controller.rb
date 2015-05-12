@@ -16,8 +16,8 @@ class MessagesController < ApplicationController
   def new
     @message = Message.new
 
-    digest = OpenSSL::Digest::SHA256.new
-    sig_service_auth = 
+    # digest = OpenSSL::Digest::SHA256.new
+    # sig_service_auth = 
   end
 
   # GET /messages/1/edit
