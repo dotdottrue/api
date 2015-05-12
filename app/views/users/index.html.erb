@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Identity</th>
+      <th>Password</th>
+      <th>Salt masterkey</th>
+      <th>Pubkey user</th>
+      <th>Privkey user enc</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.identity %></td>
+        <td><%= user.password %></td>
+        <td><%= user.salt_masterkey %></td>
+        <td><%= user.pubkey_user %></td>
+        <td><%= user.privkey_user_enc %></td>
+        <td><%= link_to 'Show', user %></td>
+        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User', new_user_path %>

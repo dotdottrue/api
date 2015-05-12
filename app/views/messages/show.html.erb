@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Identity:</strong>
+  <%= @message.identity %>
+</p>
+
+<p>
+  <strong>Cipher:</strong>
+  <%= @message.cipher %>
+</p>
+
+<p>
+  <strong>Iv:</strong>
+  <%= @message.iv %>
+</p>
+
+<p>
+  <strong>Key recipient enc:</strong>
+  <%= @message.key_recipient_enc %>
+</p>
+
+<p>
+  <strong>Sig recipient:</strong>
+  <%= @message.sig_recipient %>
+</p>
+
+<p>
+  <strong>Recipient:</strong>
+  <%= @message.recipient %>
+</p>
+
+<p>
+  <strong>Sig service:</strong>
+  <%= @message.sig_service %>
+</p>
+
+<%= link_to 'Edit', edit_message_path(@message) %> |
+<%= link_to 'Back', messages_path %>

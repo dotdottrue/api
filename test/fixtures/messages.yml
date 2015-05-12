@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  identity: 
+  cipher: MyText
+  iv: 
+  key_recipient_enc: MyString
+  sig_recipient: MyString
+  recipient: MyString
+  sig_service: MyString
+
+two:
+  identity: 
+  cipher: MyText
+  iv: 
+  key_recipient_enc: MyString
+  sig_recipient: MyString
+  recipient: MyString
+  sig_service: MyString

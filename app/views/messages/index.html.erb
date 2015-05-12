@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Messages</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Identity</th>
+      <th>Cipher</th>
+      <th>Iv</th>
+      <th>Key recipient enc</th>
+      <th>Sig recipient</th>
+      <th>Recipient</th>
+      <th>Sig service</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @messages.each do |message| %>
+      <tr>
+        <td><%= message.identity %></td>
+        <td><%= message.cipher %></td>
+        <td><%= message.iv %></td>
+        <td><%= message.key_recipient_enc %></td>
+        <td><%= message.sig_recipient %></td>
+        <td><%= message.recipient %></td>
+        <td><%= message.sig_service %></td>
+        <td><%= link_to 'Show', message %></td>
+        <td><%= link_to 'Edit', edit_message_path(message) %></td>
+        <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Message', new_message_path %>
