@@ -29,6 +29,8 @@ gem 'responders', '~> 2.0'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
+gem 'friendly_id', '~> 5.1.0'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

@@ -4,7 +4,14 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.all
+    #@messages = Message.all
+    recipient_timestamp = request.headers['HTTP_TIMESTAMP'].to_i
+
+    if timestampValidation(recipient_timestamp)
+
+    else
+
+    end
   end
 
   # GET /messages/1
@@ -19,6 +26,11 @@ class MessagesController < ApplicationController
     # digest = OpenSSL::Digest::SHA256.new
     # sig_service_auth = 
   end
+
+  def send
+    @message = Message.new
+  end
+
 
   # GET /messages/1/edit
   def edit
@@ -72,6 +84,6 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:identity, :cipher, :iv, :key_recipient_enc, :sig_recipient, :recipient, :sig_service)
+      params.require(:message).permit(:identity, :cipher, :iv, :key_recipient_enc, :sig_recipient, :timestamp, :recipient, :sig_service)
     end
 end

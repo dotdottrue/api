@@ -12,12 +12,16 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :identity %><br>
-    <%= f.text_field :identity %>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :slug %><br>
+    <%= f.text_field :slug %>
   </div>
   <div class="field">
     <%= f.label :salt_masterkey %><br>
-    <%= f.number_field :salt_masterkey %>
+    <%= f.text_field :salt_masterkey %>
   </div>
   <div class="field">
     <%= f.label :pubkey_user %><br>
