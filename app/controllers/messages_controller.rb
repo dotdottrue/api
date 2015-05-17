@@ -5,10 +5,12 @@ class MessagesController < ApplicationController
   # GET /messages.json
   def index
     #@messages = Message.all
-    recipient_timestamp = request.headers['HTTP_TIMESTAMP'].to_i
+    response_timestamp = request.headers['HTTP_TIMESTAMP'].to_i
 
-    if timestampValidation(recipient_timestamp)
+    if timestampValidation(response_timestamp)
+      #signature must be checked at this point
 
+      #if signature is valid, open the message which the user want to have
     else
 
     end

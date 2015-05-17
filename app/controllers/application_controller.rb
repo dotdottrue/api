@@ -6,11 +6,11 @@ class ApplicationController < ActionController::Base
   helper_method :timestampValidation
 
   def timestampValidation(timestamp)
-  	server_timestamp = Time.now.to_i
-  	server_timestamp_greater = server_timestamp + 300
-  	server_timestamp_smaller = server_timestamp - 300
+  	server_time = Time.now.to_i
+  	later_server_time = server_time + 300
+  	earlier_server_time = server_time - 300
 
-  	if (server_timestamp_smaller .. server_timestamp_greater).include?(timestamp)
+  	if (earlier_server_time .. later_server_time).include?(timestamp)
   		return true
   	else
   		return false
