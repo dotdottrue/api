@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     respond_to do |format|
       #check if user exists
-      if User.exists?(name: @user.name)
+      #if User.exists?(name: @user.name)
         #add status codes
         if @user.save
           format.html { redirect_to @user, notice: 'User was successfully created.' }
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
           format.html { render :new }
           format.json { render json: @user.errors, status: :unprocessable_entity }
         end
-      end
+      #end
     end
   end
 
