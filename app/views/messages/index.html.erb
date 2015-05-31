@@ -20,7 +20,7 @@
   <tbody>
     <% @messages.each do |message| %>
       <tr>
-        <td><%= message.identity %></td>
+        <td><%= message.sender %></td>
         <td><%= message.cipher %></td>
         <td><%= message.iv %></td>
         <td><%= message.key_recipient_enc %></td>

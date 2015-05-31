@@ -1,7 +1,7 @@
 class CreateMessages < ActiveRecord::Migration
   def change
     create_table :messages do |t|
-      t.integer :identity
+      t.integer :sender
       t.text :cipher
       t.integer :iv
       t.string :key_recipient_enc
