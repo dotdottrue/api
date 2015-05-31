@@ -4,13 +4,15 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.all
+    #@messages = Message.all
     response_timestamp = request.headers['HTTP_TIMESTAMP'].to_i
 
     if timestampValidation(response_timestamp)
       #signature must be checked at this point
-
+      @user = User.find_by_name(params[:user_id])
       #if signature is valid, open the message which the user want to have
+    
+      @messages = Message.where(:recipient => params[:user_id])
     else
 
     end
@@ -36,7 +38,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
 
     respond_to do |format|
-      #if timestampValidation(@message.timestamp.to_i)
+      if timestampValidation(@message.timestamp.to_i)
         if @message.save
           format.html { redirect_to @message, notice: 'Message was successfully created.' }
           format.json { render json: @status = '{ "status":"200" }' }
@@ -44,9 +46,9 @@ class MessagesController < ApplicationController
           format.html { render :new }
           format.json { render json: @status = '{ "status":"503" }' }
         end
-      # else
-      #   format.json { render json: @status = '{ "status":"500" }' }
-      # end
+      else
+        format.json { render json: @status = '{ "status":"500" }' }
+      end
     end
   end
 

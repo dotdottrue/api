@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20150513204559) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "messages", force: :cascade do |t|
-    t.integer  "identity"
+    t.string   "sender"
     t.text     "cipher"
     t.integer  "iv"
     t.string   "key_recipient_enc"
