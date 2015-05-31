@@ -4,7 +4,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    #@messages = Message.all
+    @messages = Message.all
     response_timestamp = request.headers['HTTP_TIMESTAMP'].to_i
 
     if timestampValidation(response_timestamp)
@@ -24,15 +24,7 @@ class MessagesController < ApplicationController
   # GET /messages/new
   def new
     @message = Message.new
-
-    # digest = OpenSSL::Digest::SHA256.new
-    # sig_service_auth = 
   end
-
-  def send
-    @message = Message.new
-  end
-
 
   # GET /messages/1/edit
   def edit
@@ -44,13 +36,17 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
 
     respond_to do |format|
-      if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
-        format.json { render :show, status: :created, location: @message }
-      else
-        format.html { render :new }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
+      #if timestampValidation(@message.timestamp.to_i)
+        if @message.save
+          format.html { redirect_to @message, notice: 'Message was successfully created.' }
+          format.json { render json: @status = '{ "status":"200" }' }
+        else
+          format.html { render :new }
+          format.json { render json: @status = '{ "status":"503" }' }
+        end
+      # else
+      #   format.json { render json: @status = '{ "status":"500" }' }
+      # end
     end
   end
 

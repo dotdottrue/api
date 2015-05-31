@@ -7,10 +7,12 @@ Rails.application.routes.draw do
   match '', to: 'users#index', via: [:get], defaults: {format: :json}
 
   match ':id', to: 'users#show', via: [:get], defaults: {format: :json}
+  match ':id', to: 'user#destroy', via: [:destroy], defaults: {format: :json}
+
   match ':id/pubkey', to: 'users#pubkey', via: [:get], defaults: {format: :json}
 
-  match ':user_id/message', to: 'messages#create', via: [:post], defaults: {format: :json}
-  match ':user_id', to: 'messages#index', via: [:post], defaults: {format: :json}
+  match 'message', to: 'messages#create', via: [:post], defaults: {format: :json}
+  match ':user_id/message', to: 'messages#index', via: [:get], defaults: {format: :json}
 
   # get 'user/send' => 'messages#new', as: 'send_message', defaults: {format: :json}
       
