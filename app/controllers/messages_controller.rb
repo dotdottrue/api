@@ -5,43 +5,47 @@ class MessagesController < ApplicationController
   # GET /messages.json
   def index
     #@messages = Message.all
-    response_timestamp = request.headers['HTTP_TIMESTAMP'].to_i
+    response_timestamp = params[:timestamp].to_i
 
-    #request_timestamp = params[:timestamp].to_i
-    # user_sig = Base64.strict_decode64(params[:sig_user])
+    user_signature = Base64.strict_decode64(params[:sig_user])
+    document = params[:user_id].to_s + response_timestamp.to_s
 
-    #if timestampValidation(request_timestamp)
-      #signature must be checked at this point
-      # @user = User.find_by_name(params[:user_id])
-      #if signature is valid, open the message which the user want to have
-      # digest = OpenSSL::Digest::SHA256.new
-      # pubkey = OpenSSL::PKey::RSA.new(Base64.strict_decode64(@user.pubkey_user))
-      
-      # puts "#####################################################"
-      # puts "SIGNATURE CHECK"
-      # puts "#####################################################"
-
-      # if pubkey.verify digest, sig_user, document
-
-      #   @messages = Message.where(:recipient => params[:user_id])
-      #   Message.where(:recipient => params[:user_id]).destroy_all
-      # else
-      #   render json: @status = '{"status":"503"}'
-      # end
-    #else
-      #render json: @status = '{"status":"501"}'
-   # end
-      @messages = Message.where(:recipient => params[:user_id])
     if timestampValidation(response_timestamp)
-      #signature must be checked at this point
+      #check/validate signature at this point
       @user = User.find_by_name(params[:user_id])
-      #if signature is valid, open the message which the user want to have
-    
-      @messages = Message.where(:recipient => params[:user_id])
-    else
+      digest = OpenSSL::Digest::SHA256.new
+      pubkey = OpenSSL::PKey::RSA.new(Base64.strict_decode64(@user.pubkey_user))
+      
+      puts "#####################################################"
+      puts "###################SIGNATURE CHECK###################"
+      puts "#####################################################"
 
+      if pubkey.verify digest, user_signature, document
+        puts "###################SIGNATURE Valid###################"
+        puts "#####################################################"
+
+        @messages = Message.where(recipient: params[:user_id])
+        #Message.where(:recipient => params[:user_id]).destroy_all
+      else
+        render json: @status = '{"status":"503"}'
+        puts "##################SIGNATURe invalid##################"
+        puts "#####################################################"
+      end
+    else
+      render json: @status = '{"status":"501"}'
     end
   end
+      #@messages = Message.where(:recipient => params[:user_id])
+    # if timestampValidation(response_timestamp)
+    #   #signature must be checked at this point
+    #   @user = User.find_by_name(params[:user_id])
+    #   #if signature is valid, open the message which the user want to have
+    
+    #   @messages = Message.where(:recipient => params[:user_id])
+    # else
+
+  #   end
+  # end
 
   # GET /messages/1
   # GET /messages/1.json
