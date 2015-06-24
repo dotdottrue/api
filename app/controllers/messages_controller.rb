@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
       puts "###################SIGNATURE CHECK###################"
       puts "#####################################################"
 
-      if pubkey.verify digest, user_signature, document
+      if !pubkey.verify digest, user_signature, document
         puts "###################SIGNATURE Valid###################"
         puts "#####################################################"
 
