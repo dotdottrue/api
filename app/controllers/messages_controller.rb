@@ -20,19 +20,19 @@ class MessagesController < ApplicationController
       puts "###################SIGNATURE CHECK###################"
       puts "#####################################################"
 
-      if !pubkey.verify digest, user_signature, document
+      if pubkey.verify digest, user_signature, document
         puts "###################SIGNATURE Valid###################"
         puts "#####################################################"
 
         @messages = Message.where(recipient: params[:user_id])
         #Message.where(:recipient => params[:user_id]).destroy_all
       else
-        render json: @status = '{"status":"503"}'
+        render status: 503
         puts "##################SIGNATURe invalid##################"
         puts "#####################################################"
       end
     else
-      render json: @status = '{"status":"501"}'
+      render status: 501
     end
   end
       #@messages = Message.where(:recipient => params[:user_id])
@@ -70,13 +70,16 @@ class MessagesController < ApplicationController
       if timestampValidation(@message.timestamp.to_i)
         if @message.save
           format.html { redirect_to @message, notice: 'Message was successfully created.' }
-          format.json { render json: @status = '{ "status":"200" }' }
+          render status: 200
+          # format.json { render json: @status = '{ "status":"200" }' }
         else
           format.html { render :new }
-          format.json { render json: @status = '{ "status":"503" }' }
+          render status: 503
+          # format.json { render json: @status = '{ "status":"503" }' }
         end
       else
-        format.json { render json: @status = '{ "status":"500" }' }
+        render status: 500
+        # format.json { render json: @status = '{ "status":"500" }' }
       end
     end
   end

@@ -35,10 +35,12 @@ class UsersController < ApplicationController
         if @user.save
           format.html { redirect_to @user, notice: 'User was successfully created.' }
           #add add statuscode
-          format.json { render json: status = '{ "status":"200" }' }
+          render status: 200
+          # format.json { render json: status = '{ "status":"200" }' }
         else
           format.html { render :new }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
+          render status: 500
+          #format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       end
     end
@@ -65,7 +67,8 @@ class UsersController < ApplicationController
     respond_to do |format|
       #add statuscodes falls wir die funktion mit einbauen
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
-      format.json { render json: status = '{ "status":"200" }' }
+      render status: 200
+      #format.json { render json: status = '{ "status":"200" }' }
     end
   end
 

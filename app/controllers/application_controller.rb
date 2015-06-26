@@ -13,9 +13,9 @@ class ApplicationController < ActionController::Base
   	earlier_server_time = server_time - 300
 
   	if (earlier_server_time .. later_server_time).include?(timestamp)
-  		return true
+  	  true
   	else
-  		return false
+  	  false
   	end
   end
 
