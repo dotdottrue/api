@@ -25,7 +25,7 @@ class MessagesController < ApplicationController
         puts "#####################################################"
 
         @messages = Message.where(recipient: params[:user_id])
-        #Message.where(:recipient => params[:user_id]).destroy_all
+       #Message.where(:recipient => params[:user_id]).destroy_all
       else
         render status: 503
         puts "##################SIGNATURe invalid##################"
