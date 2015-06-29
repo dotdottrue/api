@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
         puts "#####################################################"
 
         @messages = Message.where(recipient: params[:user_id])
-        
+        #Message.where(recipient: params[:user_id]).destroy
       else
         render status: 503
         puts "##################SIGNATURe invalid##################"
@@ -30,7 +30,6 @@ class MessagesController < ApplicationController
     else
       render status: 501
     end
-    Message.where(recipient: params[:user_id]).destroy
   end
 
   def show
@@ -48,13 +47,10 @@ class MessagesController < ApplicationController
 
     user_signature = Base64.strict_decode64(@message.sig_service)
     @user = User.find_by_name(@message.sender)
-    puts "Wer ist der Benutzer"
-    puts @user.name
-    puts "ende"
     digest = OpenSSL::Digest::SHA256.new
     pubkey = OpenSSL::PKey::RSA.new(Base64.strict_decode64(@user.pubkey_user))
 
-    sig_document = @message["sender"].to_s + Base64.strict_decode64(@message["cipher"]).to_s + Base64.strict_decode64(@message["key_recipient_enc"]).to_s + Base64.strict_decode64(@message["iv"]).to_s + @message["timestamp"].to_s + @message["recipient"].to_s
+    sig_document = @message["sender"].to_s + Base64.strict_decode64(@message["cipher"]).to_s + Base64.strict_decode64(@message["iv"]).to_s + Base64.strict_decode64(@message["key_recipient_enc"]).to_s + @message["timestamp"].to_s + @message["recipient"].to_s
 
     respond_to do |format|
       if timestampValidation(@message.timestamp.to_i)
@@ -64,17 +60,19 @@ class MessagesController < ApplicationController
         if pubkey.verify digest, Base64.strict_decode64(@message.sig_service), sig_document
           puts "###################SIGNATURE Valid###################"
           puts "#####################################################"
+          puts "testen wa nochmal"
+          puts @message["sender"].to_s
           @message.save
 
           #format.html { redirect_to @message, notice: 'Message was successfully created.' }
-          format.json { render json: @status = '{ "status":"200" }', status: 200 }
+          format.json { render json: '{ "status":"200" }', status: 200 }
         else
           puts "##################SIGNATURe invalid##################"
           puts "#####################################################"
-          format.json { render json: @status = '{ "status":"503" }', status: 503 }
+          format.json { render json: '{ "status":"503" }', status: 503 }
         end
       else
-        format.json { render json: @status = '{ "Nachricht":"Status 500 - Zeitüberschreitung bei der Anfrage." }', status: 500 }
+        format.json { render json: '{ "Nachricht":"Status 500 - Zeitüberschreitung bei der Anfrage." }', status: 500 }
       end
     end
   end
@@ -92,9 +90,10 @@ class MessagesController < ApplicationController
   end
 
   def destroy
-    @message.destroy
+    @delete_msg = Message.find(params[:id])
+    @delete_msg.destroy
     respond_to do |format|
-      format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
+      #format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

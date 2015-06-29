@@ -29,19 +29,17 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     respond_to do |format|
-      if User.exists?(name: @user.name)
+      if User.exists?(:name => @user.name)
         format.json status: 501 # { render json: '{"status":"501"}' },
+      elsif @user.save
+        #format.html { redirect_to @user, notice: 'User was successfully created.', status: 200 }
+        #add add statuscode
+        #render status: 200
+        format.json { render json: '{ "status":"200" }', status: 200 }
       else
-        if @user.save
-          #format.html { redirect_to @user, notice: 'User was successfully created.', status: 200 }
-          #add add statuscode
-          #render status: 200
-          format.json { render json: '{ "status":"200" }', status: 200 }
-        else
-          format.html { render :new }
-          #render status: 500
-          format.json { render json: @user.errors, status: 500 }
-        end
+        format.html { render :new }
+        #render status: 500
+        format.json { render json: @user.errors, status: 500 }
       end
     end
   end
