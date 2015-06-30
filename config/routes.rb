@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   match 'message', to: 'messages#create', via: [:post], defaults: {format: :json}
   match ':user_id/message', to: 'messages#index', via: [:get], defaults: {format: :json}
 
-  match 'delete_message/:id', to: 'messages#destroy', via: [:get], defaults: {format: :json}
+  #match 'delete_message/:id', to: 'messages#destroy', via: [:get], defaults: {format: :json}
 
   # get 'user/send' => 'messages#new', as: 'send_message', defaults: {format: :json}
       

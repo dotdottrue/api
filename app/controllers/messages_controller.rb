@@ -19,9 +19,13 @@ class MessagesController < ApplicationController
       if pubkey.verify digest, user_signature, document
         puts "###################SIGNATURE Valid###################"
         puts "#####################################################"
-
-        @messages = Message.where(recipient: params[:user_id])
-        #Message.where(recipient: params[:user_id]).destroy
+        Message.transaction do
+          @messages = Message.where(recipient: params[:user_id])
+          render json: @messages.to_json(only: [:sender, :recipient, :cipher, :iv, :key_recipient_enc, :sig_recipient])
+        end
+        Message.transaction do
+          Message.where(recipient: params[:user_id]).destroy_all
+        end
       else
         render status: 503
         puts "##################SIGNATURe invalid##################"
@@ -50,7 +54,7 @@ class MessagesController < ApplicationController
     digest = OpenSSL::Digest::SHA256.new
     pubkey = OpenSSL::PKey::RSA.new(Base64.strict_decode64(@user.pubkey_user))
 
-    sig_document = @message["sender"].to_s + Base64.strict_decode64(@message["cipher"]).to_s + Base64.strict_decode64(@message["iv"]).to_s + Base64.strict_decode64(@message["key_recipient_enc"]).to_s + @message["timestamp"].to_s + @message["recipient"].to_s
+    sig_document = @message["sender"].to_s + Base64.strict_decode64(@message["cipher"]).to_s + Base64.strict_decode64(@message["iv"]).to_s + Base64.strict_decode64(@message["key_recipient_enc"]).to_s + Base64.strict_decode64(@message["sig_recipient"]).to_s + @message["timestamp"].to_s + @message["recipient"].to_s
 
     respond_to do |format|
       if timestampValidation(@message.timestamp.to_i)
