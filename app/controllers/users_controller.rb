@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :pubkey]
+  before_action :set_user, only: [:show, :edit, :update, :pubkey]
 
   def index
     @users = User.all
@@ -45,6 +45,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @user = User.friendly.find(params[:id])
     if @user.destroy
       respond_to do |format|
         format.json { render json: '{ "status":"200" }', status: 200 }
