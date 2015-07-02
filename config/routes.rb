@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   match '', to: 'users#index', via: [:get], defaults: {format: :json}
 
   match ':id', to: 'users#show', via: [:get], defaults: {format: :json}
-  match ':id', to: 'user#destroy', via: [:destroy], defaults: {format: :json}
+  match ':id/delete', to: 'users#destroy', via: [:get], defaults: {format: :json}
 
   match ':id/pubkey', to: 'users#pubkey', via: [:get], defaults: {format: :json}
 

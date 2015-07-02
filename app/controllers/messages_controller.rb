@@ -36,14 +36,8 @@ class MessagesController < ApplicationController
     end
   end
 
-  def show
-  end
-
   def new
     @message = Message.new
-  end
-
-  def edit
   end
 
   def create
@@ -64,11 +58,8 @@ class MessagesController < ApplicationController
         if pubkey.verify digest, Base64.strict_decode64(@message.sig_service), sig_document
           puts "###################SIGNATURE Valid###################"
           puts "#####################################################"
-          puts "testen wa nochmal"
-          puts @message["sender"].to_s
           @message.save
 
-          #format.html { redirect_to @message, notice: 'Message was successfully created.' }
           format.json { render json: '{ "status":"200" }', status: 200 }
         else
           puts "##################SIGNATURe invalid##################"
@@ -77,18 +68,6 @@ class MessagesController < ApplicationController
         end
       else
         format.json { render json: '{ "Nachricht":"Status 500 - Zeitüberschreitung bei der Anfrage." }', status: 500 }
-      end
-    end
-  end
-
-  def update
-    respond_to do |format|
-      if @message.update(message_params)
-        format.html { redirect_to @message, notice: 'Message was successfully updated.' }
-        format.json { render :show, status: :ok, location: @message }
-      else
-        format.html { render :edit }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
   end

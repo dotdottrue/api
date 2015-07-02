@@ -45,12 +45,12 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
-    respond_to do |format|
-      #add statuscodes falls wir die funktion mit einbauen
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
-      render status: 200
-      #format.json { render json: status = '{ "status":"200" }' }
+    if @user.destroy
+      respond_to do |format|
+        format.json { render json: '{ "status":"200" }', status: 200 }
+      end
+    else
+      format.json { render json: '{ "status":"500" }', status: 500 }
     end
   end
 
